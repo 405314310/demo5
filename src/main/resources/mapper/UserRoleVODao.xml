@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lyz.demo5.dao.db1.UserRoleVODao">
+    <select id="selectAll" resultMap="test1">
+        select
+            u.id uid,
+            u.name uname,
+            u.pwd upwd,
+            r.id rid,
+            r.name rname
+        from
+            demo5_user u,
+            demo5_role r,
+            demo5_userRole ur
+        where
+            u.id = ur.userId
+        and
+            r.id = ur.roleId
+    </select>
+
+    <resultMap id="test1" type="com.lyz.demo5.model.VO.UserRoleVO" >
+        <id property="id" column="uid"/>
+        <result property="name" column="uname"/>
+        <result property="pwd" column="upwd"/>
+        <collection property="roleList" ofType="com.lyz.demo5.model.Role">
+            <id property="id" column="rid"/>
+            <result property="name" column="rname"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="selectById" resultMap="test1">
+        select
+            u.id uid,
+            u.name uname,
+            u.pwd upwd,
+            r.id rid,
+            r.name rname
+        from
+            demo5_user u,
+            demo5_role r,
+            demo5_userRole ur
+        where
+            u.id = ur.userId
+        and
+            r.id = ur.roleId
+        and
+            u.id = #{id}
+    </select>
+
+    <insert id="add" >
+        insert into
+        demo5_userRole
+        (id,userId,roleId)
+        values
+        (#{id},#{userId},#{roleId})
+    </insert>
+    <delete id="delete">
+        delete
+        from
+            demo5_userRole
+        where
+            userId=#{userId}
+        and
+            roleId=#{roleId}
+
+    </delete>
+
+    <select id="selectByUserRoleId" resultMap="test1">
+        select
+            u.id uid,
+            u.name uname,
+            u.pwd upwd,
+            r.id rid,
+            r.name rname
+        from
+            demo5_user u,
+            demo5_role r,
+            demo5_userRole ur
+        where
+            u.id = ur.userId
+        and
+            r.id = ur.roleId
+        and
+            u.id = #{userId}
+        and
+            r.id = #{roleId}
+    </select>
+
+    <delete id="deleteByUserId" >
+        delete
+        from
+            demo5_userRole
+        where
+            userId=#{userId}
+    </delete>
+
+
+</mapper>

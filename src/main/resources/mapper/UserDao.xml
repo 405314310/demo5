@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lyz.demo5.dao.db1.UserDao">
+    <sql id="tableName" >demo5_user</sql>
+    <insert id="add" parameterType="com.lyz.demo5.model.User" >
+        insert into
+        <include refid="tableName" />
+            (id,name,pwd,createTime,email)
+        values
+            (#{id},#{name},#{pwd},#{createTime},#{email})
+    </insert>
+
+    <delete id="delete" >
+        delete
+        from
+        <include refid="tableName" />
+        where
+            id=#{id}
+    </delete>
+
+    <update id="update" parameterType="com.lyz.demo5.model.User">
+        update
+        <include refid="tableName" />
+        set
+            id = id
+        <if test="name!=null and name!='' ">
+            ,name = #{name}
+        </if>
+        <if test="pwd!=null and pwd!='' ">
+            ,pwd = #{pwd}
+        </if>
+        where
+            id = #{id}
+    </update>
+
+    <select id="selectAll" parameterType="com.lyz.demo5.model.CustomPage" resultType="com.lyz.demo5.model.User">
+        select
+            *
+        from
+        <include refid="tableName" />
+        limit #{startNum},#{pageRow}
+    </select>
+
+    <select id="selectByName" resultType="com.lyz.demo5.model.User" >
+        select 
+            *
+        from
+        <include refid="tableName"/>
+        where
+            name = #{name}
+    </select>
+
+    <select id="selectByNamePwd" resultType="com.lyz.demo5.model.User" parameterType="com.lyz.demo5.model.User">
+        select
+            *
+        from
+        <include refid="tableName" />
+        where
+            name = #{name}
+        and
+            pwd = #{pwd}
+
+    </select>
+
+    <select id="selectById" resultType="com.lyz.demo5.model.User" >
+        select
+            *
+        from
+        <include refid="tableName" />
+        where
+            id = #{id}
+    </select>
+
+    <select id="selectByNameEmail" resultType="com.lyz.demo5.model.User" parameterType="com.lyz.demo5.model.User">
+        select
+            *
+        from
+        <include refid="tableName" />
+        where
+            name = #{name}
+        and
+            email = #{email}
+    </select>
+
+    <update id="updateUserStatus">
+        update
+        <include refid="tableName" />
+        set
+        id = id
+        <if test="status!=null and status!='' ">
+            ,status = #{status}
+        </if>
+        where
+        id = #{userId}
+    </update>
+
+</mapper>

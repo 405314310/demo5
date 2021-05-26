@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script language="javascript">
+    var data = [{"id": 1, "name": "张三"},{"id": 14, "name": "张三"},{"id": 1, "name": "张三"},{"id": 1, "name": "张三"}];
+    for(var i = 0 ;i<40;i++){
+        data.push({"id":i ,"name": "张"+i})
+    }
+
+    window.onload = function () {
+        var tdArr = document.getElementById('tablebox').firstElementChild;
+        for (var i = 0; i < data.length; i++) {
+            var tr = document.createElement("tr");
+            tr.innerHTML = '<td class="active">' + data[i].name + '</td><td class="warning" onClick=clickPerson('+data[i].id+') >编辑</td>';
+            tdArr.appendChild(tr)
+        }
+    };
+    function clickPerson(id) {
+        console.log(id)
+    }
+</script>
+<body>
+<table class="table table-hover" id="tablebox">
+    <tr>
+        <td class="active">用户名</td>
+        <td class="warning">编辑</td>
+    </tr>
+</table>
+</body>
+</html>

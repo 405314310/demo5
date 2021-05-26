@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lyz.demo5.dao.db1.MenuVODao">
+    <select id="selectChildrenById" resultMap="selectChildren" >
+        select
+            *
+        from
+            demo5_menu
+        where
+            parentId = #{id}
+    </select>
+
+    <resultMap id="selectChildren" type="com.lyz.demo5.model.VO.MenuVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name" />
+        <result column="parentId" property="parentId" />
+        <result column="url" property="url" />
+        <collection property="menuVOList" select="selectChildrenById" column="id" ofType="com.lyz.demo5.model.VO.MenuVO" >
+
+        </collection>
+    </resultMap>
+
+    <select id="selectParentByParentId" resultMap="selectParent" >
+        select
+            *
+        from
+            demo5_menu
+        where
+            id = #{parentId}
+    </select>
+
+    <resultMap id="selectParent" type="com.lyz.demo5.model.VO.MenuVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name" />
+        <result column="parentId" property="parentId" />
+        <result column="url" property="url" />
+        <collection property="menuVOList" select="selectParentByParentId" column="parentId" ofType="com.lyz.demo5.model.VO.MenuVO" >
+
+        </collection>
+    </resultMap>
+
+
+
+</mapper>

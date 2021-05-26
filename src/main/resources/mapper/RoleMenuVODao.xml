@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lyz.demo5.dao.db1.RoleMenuVODao">
+    <insert id="add" >
+        insert into
+        demo5_roleMenu
+        (id,roleId,menuId)
+        values
+        (#{id},#{roleId},#{menuId})
+    </insert>
+
+    <delete id="delete">
+        delete
+        from
+            demo5_roleMenu
+        where
+            roleId = #{roleId}
+        <if test="menuId!=null and menuId!='' ">
+            and
+            menuId = #{menuId}
+        </if>
+
+    </delete>
+    <delete id="deleteByRoleId">
+        delete
+        from
+        demo5_roleMenu
+        where
+        roleId = #{roleId}
+    </delete>
+
+    <select id="selectById" resultMap="test1">
+        select
+            r.id rid,
+            r.name rname,
+            m.id mid,
+            m.name mname,
+            m.parentId mparentId,
+            m.url murl
+        from
+            demo5_roleMenu rm,
+            demo5_role r,
+            demo5_menu m
+        where
+            rm.roleId = r.id
+        and
+            rm.menuId = m.id
+        and
+            r.id = #{id}
+
+    </select>
+
+    <select id="selectByRoleMenuId" resultMap="test1">
+        select
+            r.id rid,
+            r.name rname,
+            m.id mid,
+            m.name mname,
+            m.parentId mparentId,
+            m.url murl
+        from
+            demo5_roleMenu rm,
+            demo5_role r,
+            demo5_menu m
+        where
+            rm.roleId = r.id
+        and
+            rm.menuId = m.id
+        and
+            r.id = #{roleId}
+        and
+            m.id = #{menuId}
+    </select>
+
+    <resultMap id="test1" type="com.lyz.demo5.model.VO.RoleMenuVO">
+        <id property="id" column="rid" />
+        <result property="name" column="rname"/>
+        <collection property="menuList" ofType="com.lyz.demo5.model.Menu">
+            <id property="id" column="mid"/>
+            <result property="name" column="mname"/>
+            <result property="parentId" column="mparentId"/>
+            <result property="url" column="murl"/>
+        </collection>
+    </resultMap>
+
+</mapper>

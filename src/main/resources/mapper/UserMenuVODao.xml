@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lyz.demo5.dao.db1.UserMenuVODao">
+    <select id="selectMenuByUserId" resultMap="test1" >
+        select
+            u.id uid
+            ,u.name uname
+            ,u.pwd upwd
+            ,m.id mid
+            ,m.name mname
+            ,m.parentId mparentId
+            ,m.url murl
+        from
+            demo5_user u
+            ,demo5_menu m
+            ,demo5_role r
+            ,demo5_userRole ur
+            ,demo5_roleMenu rm
+        where
+            ur.userId = u.id
+            and
+            ur.roleId = r.id
+            and
+            rm.roleId = r.id
+            and
+            rm.menuId = m.id
+            and
+            u.id = #{userId}
+
+    </select>
+
+    <resultMap id="test1" type="com.lyz.demo5.model.VO.UserMenuVO">
+        <id property="id" column="uid" />
+        <result property="name" column="uname" />
+        <result property="pwd" column="upwd" />
+        <collection property="menuList" ofType="com.lyz.demo5.model.Menu">
+            <id property="id" column="mid" />
+            <result property="name" column="mname"/>
+            <result property="parentId" column="mparentId"/>
+            <result property="url" column="murl"/>
+        </collection>
+    </resultMap>
+</mapper>
